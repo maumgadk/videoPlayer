@@ -1,9 +1,0 @@
-# Target labels
- Main
- opencv_gapi
- Sample
-# Source files and their labels
-/Users/taemeonbae/src/videoPlayer/opencv/opencv-4.5.0/modules/gapi/samples/slides_sobel_cv.cpp
- Main
- opencv_gapi
- Sample
