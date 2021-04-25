@@ -6,15 +6,16 @@ import numpy as np
 # import argparse
 import sys
 
-set_property = False
 
-def play(fns):
-
-    global set_property
+def play(fns, set_property):
 
     ret = 1
 
     caps = [cv2.VideoCapture(fn) for fn in fns]
+
+    frameRates = [cap.get(cv2.CAP_PROP_FPS) for cap in caps]
+
+    interval = int(1000/frameRates[0])
 
     # Check if camera opened successfully
     for fn, cap in zip(fns, caps):
@@ -37,10 +38,9 @@ def play(fns):
         
         if not set_property:
             cv2.setWindowProperty('Frame', cv2.WND_PROP_TOPMOST, 1)
-            set_property = True
 
         # Press Q on keyboard to  exit
-        key = cv2.waitKey(25) & 0xFF
+        key = cv2.waitKey(interval) & 0xFF
         if key == ord('q'):
             ret = 0
             break
@@ -59,7 +59,6 @@ def play(fns):
     return ret
 
 
-
 if __name__ == "__main__":
     # Create a VideoCapture object and read from input file
 
@@ -69,6 +68,8 @@ if __name__ == "__main__":
 
     fns = [sys.argv[i+1] for i in range(len(sys.argv)-1)]
 
-    
 
-    while(play(fns)):   pass
+    set_property = False
+
+    while(play(fns, set_property)):   
+        set_property = True
